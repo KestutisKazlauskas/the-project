@@ -7,8 +7,42 @@ services:
       context: .
       dockerfile: ./docker/Dockerfile
       target: development
+    environment:
+      - ELASTICSEARCH_HOSTS=http://elasticsearch:9200
     volumes:
       - .:/app
+    networks:
+      - anagram-api
     ports:
       - "8000:8000"
+    depends_on:
+      - elasticsearch
     tty: true
+  elasticsearch:
+    image: docker.elastic.co/elasticsearch/elasticsearch:8.1.2
+    container_name: elasticsearch
+    environment:
+      - node.name=anagram-api
+      - cluster.name=es-anagram-api-cluster
+      - http.cors.enabled=true
+      - http.cors.allow-origin=*
+      - xpack.security.enabled=false
+      - "discovery.type=single-node"
+    volumes:
+      - eslogs:/var/log
+      - esdata:/usr/share/elasticsearch/data
+    networks:
+      - anagram-api
+    ports:
+      - "9200:9200"
+      - "9300:9300"
+
+volumes:
+  esdata:
+    driver: local
+  eslogs:
+    driver: local
+
+networks:
+  anagram-api:
+    driver: bridge
