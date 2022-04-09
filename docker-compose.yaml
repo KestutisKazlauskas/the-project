@@ -24,8 +24,6 @@ services:
     environment:
       - node.name=anagram-api
       - cluster.name=es-anagram-api-cluster
-      - http.cors.enabled=true
-      - http.cors.allow-origin=*
       - xpack.security.enabled=false
       - "discovery.type=single-node"
     volumes:
@@ -35,7 +33,6 @@ services:
       - anagram-api
     ports:
       - "9200:9200"
-      - "9300:9300"
 
 volumes:
   esdata:
