@@ -1,0 +1,48 @@
+[build-system]
+requires = ["poetry>=1.1.13"]
+build-backend = "poetry.masonry.api"
+
+[tool.poetry]
+name = "anagram api"
+version = "0.1.0"
+description = "API that allows fast searches for anagrams"
+authors = ["github.com/KestutisKazlauskas"]
+
+[tool.poetry.dependencies]
+python = "^3.10"
+
+fastapi = "==0.75.1"
+uvicorn = "==0.17.6"
+
+[tool.poetry.dev-dependencies]
+pytest = "^7.1.1"
+black = "^22.3.0"
+isort = { version = "^5.10.1", extras = ["pyproject"]}
+requests = "^2.27.1"
+
+
+[tool.black]
+# https://github.com/psf/black
+line-length = 100
+target_version = ['py38']
+exclude = '''
+(
+  /(
+    \.git
+    | \.mypy_cache
+    | \.pytest_cache
+    | htmlcov
+    | venv
+    | .venv
+  )/
+)
+'''
+
+[tool.isort]
+# https://github.com/timothycrosley/isort
+# https://github.com/timothycrosley/isort/wiki/isort-Settings
+line_length = 100
+indent = '    '
+multi_line_output = 3
+include_trailing_comma = true
+force_grid_wrap = 0
