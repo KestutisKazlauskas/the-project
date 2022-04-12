@@ -21,8 +21,8 @@ class ElasticSearchRepository(BaseAbstractWordsRepository):
         self.es_client = es_client
 
     @staticmethod
-    def _make_term_query_from_list(terms: List[str]) -> List[dict]:
-        return [{"term": {"word_type": term}} for term in terms]
+    def _make_term_query_from_list(terms: List[str]) -> dict:
+        return {"terms": {"word_type": [term.lower() for term in terms]}}
 
     def bulk_save(self, words: List[Word]) -> List[Word]:
         logger.info("ElasticSearchRepository.bulk_save started")
@@ -67,9 +67,9 @@ class ElasticSearchRepository(BaseAbstractWordsRepository):
             }
         }
         if include_word_types:
-            query["bool"]["should"] = self._make_term_query_from_list(include_word_types)
+            query["bool"]["filter"].append(self._make_term_query_from_list(include_word_types))
         if exclude_word_types:
-            query["bool"]["must_not"].extend(self._make_term_query_from_list(exclude_word_types))
+            query["bool"]["must_not"].append(self._make_term_query_from_list(exclude_word_types))
 
         logger.info(f"Elastic serach query: {query}")
         resp = self.es_client.search(index="words", query=query, fields=["word"], source=False, size=limit)
