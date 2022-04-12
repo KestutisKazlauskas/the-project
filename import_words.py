@@ -14,7 +14,7 @@ def parse_dictionary_file(file: str):
             line = f.readline()
             if not line:
                 break  # done
-            data.append(line. rstrip("\n"))
+            data.append(line.rstrip("\n"))
             if len(data) == 500:
                 yield data
                 data = []
