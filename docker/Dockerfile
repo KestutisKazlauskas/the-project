@@ -61,4 +61,4 @@ COPY . .
 
 EXPOSE 8000
 ENTRYPOINT /docker-entrypoint.sh $0 $@
-CMD ["uvicorn", "--reload", "--host=0.0.0.0", "--port=8000", "api.main:api"]
+CMD ["uvicorn", "--reload", "--host=0.0.0.0", "--port=8000", "app.main:app"]

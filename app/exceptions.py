@@ -1,0 +1,2 @@
+class WordNotFound(Exception):
+    pass
